@@ -101,6 +101,7 @@ export default function Todo() {
                       value={editingText}
                       onChange={handleEditChange}
                       className="flex-1 p-1 rounded outline-1 outline-blue-400"
+                      autoFocus
                     />
                     <button
                       onClick={handleEditSave}
