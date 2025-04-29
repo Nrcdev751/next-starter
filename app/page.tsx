@@ -1,13 +1,11 @@
-// import Image from "next/image";
-import Hello from './components/Hello'
+"use client";
+
+import Todo from "./components/Todo";
 
 export default function Home() {
-  console.log("What am i doing here? -- SERVER/CLIENT");
-
   return (
-      <>
-        <h1>Welcome to Next.js</h1>
-        <Hello/>
-      </>
+    <>
+      <Todo />
+    </>
   );
 }
