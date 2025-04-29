@@ -6,15 +6,17 @@ import Swal from 'sweetalert2'
 
 type TodoItem = {
   id: string;
+  status: boolean;
   task: string;
   order: number;
 };
 
 export default function Todo() {
   const [todos, setTodos] = useState<TodoItem[]>([]);
+  const [checktodo, setChecktodo] = useState<boolean | null>(null);
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
   const [editingText, setEditingText] = useState("");
-  
+
 
   useEffect(() => {
     const stored = localStorage.getItem("todos");
@@ -31,7 +33,8 @@ export default function Todo() {
     const newTodo: TodoItem = {
       id: Date.now().toString(),
       task,
-      order: todos.length+1,
+      status: false,
+      order: todos.length + 1,
     };
     setTodos((prev) => [...prev, newTodo]);
   };
@@ -60,6 +63,15 @@ export default function Todo() {
     setEditingIndex(index);
     setEditingText(todos[index].task);
   };
+  const handleChecked = (index: number) => {
+    const updated = [...todos];
+    updated[index] = {
+      ...updated[index],
+      status: !updated[index].status, // toggle true/false
+    };
+    setTodos(updated);
+  };
+
 
   const handleEditChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEditingText(e.target.value);
@@ -112,7 +124,16 @@ export default function Todo() {
                   </form>
                 ) : (
                   <>
-                    <span >{todo.task}</span>
+                    <div className="flex items-center">
+                      <form action="">
+                        <input
+                          type="checkbox"
+                          checked={todo.status}
+                          onChange={() => handleChecked(index)}
+                        />
+                      </form>
+                      <span className="mx-2">{todo.task}</span>
+                    </div>
                     <div className="flex gap-2">
                       <button
                         onClick={() => handleEdit(index)}
